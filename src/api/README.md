@@ -13,7 +13,7 @@ import { ExodeAPI } from '@exode-team/sdk/api'
 ## Инициализация
 
 ```js
-const api = new ExodeAPI({
+const exodeApi = new ExodeAPI({
   sellerId: 123,
   schoolId: 456,
   token: 'your-api-token',
@@ -37,7 +37,7 @@ const api = new ExodeAPI({
 #### Создание пользователя
 
 ```js
-const user = await api.school.user.create({
+const user = await exodeApi.school.user.create({
   email: 'student@example.com',
   phone: '+79991234567',
   tgId: 123456789,
@@ -55,7 +55,7 @@ const user = await api.school.user.create({
 #### Обновление пользователя
 
 ```js
-const updated = await api.school.user.update(user.id, {
+const updated = await exodeApi.school.user.update(user.id, {
   profile: { firstName: 'Ivan Updated' },
 })
 ```
@@ -63,7 +63,7 @@ const updated = await api.school.user.update(user.id, {
 #### Создание или обновление (upsert)
 
 ```js
-const { user, isCreated } = await api.school.user.upsert({
+const { user, isCreated } = await exodeApi.school.user.upsert({
   email: 'student@example.com',
   profile: { firstName: 'Ivan' },
 })
@@ -72,17 +72,17 @@ const { user, isCreated } = await api.school.user.upsert({
 #### Поиск пользователя
 
 ```js
-const byEmail = await api.school.user.find({ login: 'student@example.com' })
-const byTg = await api.school.user.find({ tgId: 123456789 })
-const byExt = await api.school.user.find({ extId: 'external-id-1' })
+const byEmail = await exodeApi.school.user.find({ login: 'student@example.com' })
+const byTg = await exodeApi.school.user.find({ tgId: 123456789 })
+const byExt = await exodeApi.school.user.find({ extId: 'external-id-1' })
 ```
 
 #### Состояние пользователя (key-value)
 
 ```js
-const state = await api.school.user.getState(user.id, 'PersonalInfoFilled')
+const state = await exodeApi.school.user.getState(user.id, 'PersonalInfoFilled')
 
-await api.school.user.setState(user.id, 'PersonalInfoFilled', { filled: true })
+await exodeApi.school.user.setState(user.id, 'PersonalInfoFilled', { filled: true })
 ```
 
 #### Токен авторизации
@@ -90,7 +90,7 @@ await api.school.user.setState(user.id, 'PersonalInfoFilled', { filled: true })
 Создаёт сессию для авто-логина через параметр `___uat`:
 
 ```js
-const { session, isCreated } = await api.school.user.createAuthToken({
+const { session, isCreated } = await exodeApi.school.user.createAuthToken({
   userId: user.id,
 })
 
@@ -103,14 +103,14 @@ const { session, isCreated } = await api.school.user.createAuthToken({
 
 ```js
 // Макс. 100 участников за запрос
-const { exist, created } = await api.school.group.addMembers(groupId, [1, 2, 3])
+const { exist, created } = await exodeApi.school.group.addMembers(groupId, [1, 2, 3])
 ```
 
 #### Удаление участников
 
 ```js
 // Макс. 100 участников за запрос
-const { affected } = await api.school.group.removeMembers(groupId, [1, 2])
+const { affected } = await exodeApi.school.group.removeMembers(groupId, [1, 2])
 ```
 
 ### Query Export
@@ -120,7 +120,7 @@ const { affected } = await api.school.group.removeMembers(groupId, [1, 2])
 ```js
 import { QueryExportType, QueryExportFormat } from '@exode-team/sdk/api'
 
-const execution = await api.school.queryExport.generate({
+const execution = await exodeApi.school.queryExport.generate({
   type: QueryExportType.GroupMemberFindMany,
   variables: {
     filter: { groupIds: [1, 2], active: true },
@@ -137,7 +137,7 @@ const execution = await api.school.queryExport.generate({
 ```js
 import { WorkflowExecutionStatus } from '@exode-team/sdk/api'
 
-const result = await api.school.queryExport.getResult(execution.uuid)
+const result = await exodeApi.school.queryExport.getResult(execution.uuid)
 
 if (result.status === WorkflowExecutionStatus.Completed && result.result) {
   console.log(result.result.fileUrl)
@@ -152,7 +152,7 @@ if (result.status === WorkflowExecutionStatus.Completed && result.result) {
 import { ExodeAPIError } from '@exode-team/sdk/api'
 
 try {
-  await api.school.user.find({ login: 'unknown@mail.com' })
+  await exodeApi.school.user.find({ login: 'unknown@mail.com' })
 } catch (error) {
   if (error instanceof ExodeAPIError) {
     error.code        // 400, 401, 403, 404, ...

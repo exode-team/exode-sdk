@@ -23,13 +23,13 @@ npm install @exode-team/sdk
 ```js
 import { ExodeAPI } from '@exode-team/sdk/api'
 
-const api = new ExodeAPI({
+const exodeApi = new ExodeAPI({
   sellerId: 1,
   schoolId: 1,
   token: 'your-api-token',
 })
 
-const user = await api.school.user.create({
+const user = await exodeApi.school.user.create({
   email: 'student@example.com',
   profile: { firstName: 'Ivan', role: 'Student' },
 })
