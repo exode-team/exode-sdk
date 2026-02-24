@@ -65,6 +65,14 @@ export function ExodeMiniAppProvider({ config, children }: ExodeMiniAppProviderP
       if (!cancelled) setContext((prev) => prev ? { ...prev, theme } : null)
     })
 
+    const unsubSchool = app.on('school:updated', (school) => {
+      if (!cancelled) setContext((prev) => prev ? { ...prev, school } : null)
+    })
+
+    const unsubConfig = app.on('config:updated', (config) => {
+      if (!cancelled) setContext((prev) => prev ? { ...prev, config } : null)
+    })
+
     const unsubContext = app.on('context:updated', (partial) => {
       if (!cancelled) setContext((prev) => prev ? { ...prev, ...partial } : null)
     })
@@ -75,6 +83,8 @@ export function ExodeMiniAppProvider({ config, children }: ExodeMiniAppProviderP
       cancelled = true
       unsubUser()
       unsubTheme()
+      unsubSchool()
+      unsubConfig()
       unsubContext()
       unsubRoute()
       app.destroy()

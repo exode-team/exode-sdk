@@ -51,6 +51,8 @@ export interface MiniAppConfig {
 export type MiniAppEventMap = {
   'theme:changed': MiniAppTheme
   'user:updated': MiniAppUser
+  'school:updated': Record<string, unknown>
+  'config:updated': MiniAppConfig
   'route:changed': { path: string; params: Record<string, string> }
   'context:updated': Partial<MiniAppContext>
   'visibility:changed': { visible: boolean }
