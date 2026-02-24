@@ -15,5 +15,3 @@ export type {
   MiniAppInitResult,
   ExodeMiniAppConfig,
 } from './types'
-
-export type { Platform } from '../shared/types'

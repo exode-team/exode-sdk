@@ -1,4 +1,4 @@
-import type { Platform } from '../shared/types'
+export type Platform = 'web' | 'native'
 
 // Bridge protocol
 

@@ -6,7 +6,6 @@ import type {
   MiniAppCommandMap,
   ExodeMiniAppConfig,
 } from './types'
-import type { Platform } from '../shared/types'
 
 // --- Context ---
 
@@ -152,7 +151,7 @@ export function useExodeConfig() {
     isDesktop: context?.config?.isDesktop ?? false,
     isMobile: context?.config?.isMobile ?? false,
     language: context?.config?.language ?? 'ru',
-    platform: (context?.platform ?? 'web') as Platform,
+    platform: context?.platform ?? 'web',
   }
 }
 
