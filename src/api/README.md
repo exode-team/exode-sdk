@@ -6,13 +6,13 @@
 npm install @exode-team/sdk
 ```
 
-```typescript
+```js
 import { ExodeAPI } from '@exode-team/sdk/api'
 ```
 
 ## Инициализация
 
-```typescript
+```js
 const api = new ExodeAPI({
   sellerId: 123,
   schoolId: 456,
@@ -34,8 +34,9 @@ const api = new ExodeAPI({
 
 ### User
 
-```typescript
-// Создать пользователя
+#### Создание пользователя
+
+```js
 const user = await api.school.user.create({
   email: 'student@example.com',
   phone: '+79991234567',
@@ -45,53 +46,80 @@ const user = await api.school.user.create({
     firstName: 'Ivan',
     lastName: 'Petrov',
     bdate: '2000-01-15',
-    sex: UserSex.Men,
-    role: ProfileRole.Student,
+    sex: 'Men',
+    role: 'Student',
   },
 })
+```
 
-// Обновить пользователя
+#### Обновление пользователя
+
+```js
 const updated = await api.school.user.update(user.id, {
   profile: { firstName: 'Ivan Updated' },
 })
+```
 
-// Создать или обновить (upsert)
-const { user: upserted, isCreated } = await api.school.user.upsert({
+#### Создание или обновление (upsert)
+
+```js
+const { user, isCreated } = await api.school.user.upsert({
   email: 'student@example.com',
   profile: { firstName: 'Ivan' },
 })
+```
 
-// Найти пользователя
-const found = await api.school.user.find({ login: 'student@example.com' })
+#### Поиск пользователя
+
+```js
+const byEmail = await api.school.user.find({ login: 'student@example.com' })
 const byTg = await api.school.user.find({ tgId: 123456789 })
 const byExt = await api.school.user.find({ extId: 'external-id-1' })
+```
 
-// Состояние пользователя (key-value)
-const state = await api.school.user.getState(user.id, UserStateKey.PersonalInfoFilled)
-await api.school.user.setState(user.id, UserStateKey.PersonalInfoFilled, { filled: true })
+#### Состояние пользователя (key-value)
 
-// Создать токен авторизации (для авто-логина через параметр ___uat)
-const { session, isCreated: sessionCreated } = await api.school.user.createAuthToken({
+```js
+const state = await api.school.user.getState(user.id, 'PersonalInfoFilled')
+
+await api.school.user.setState(user.id, 'PersonalInfoFilled', { filled: true })
+```
+
+#### Токен авторизации
+
+Создаёт сессию для авто-логина через параметр `___uat`:
+
+```js
+const { session, isCreated } = await api.school.user.createAuthToken({
   userId: user.id,
 })
+
+// session.token — передайте как ?___uat=<token> в URL
 ```
 
 ### Group
 
-```typescript
-// Добавить участников в группу (макс. 100 за запрос)
-const { exist, created } = await api.school.group.addMembers(groupId, [1, 2, 3])
+#### Добавление участников
 
-// Удалить участников из группы (макс. 100 за запрос)
+```js
+// Макс. 100 участников за запрос
+const { exist, created } = await api.school.group.addMembers(groupId, [1, 2, 3])
+```
+
+#### Удаление участников
+
+```js
+// Макс. 100 участников за запрос
 const { affected } = await api.school.group.removeMembers(groupId, [1, 2])
 ```
 
 ### Query Export
 
-```typescript
-import { QueryExportType, QueryExportFormat, WorkflowExecutionStatus } from '@exode-team/sdk/api'
+#### Запуск экспорта
 
-// Запустить экспорт (асинхронно)
+```js
+import { QueryExportType, QueryExportFormat } from '@exode-team/sdk/api'
+
 const execution = await api.school.queryExport.generate({
   type: QueryExportType.GroupMemberFindMany,
   variables: {
@@ -100,8 +128,15 @@ const execution = await api.school.queryExport.generate({
   },
   format: QueryExportFormat.Xlsx,
 })
+```
 
-// Получить результат (поллинг)
+#### Получение результата
+
+Экспорт выполняется асинхронно. Используйте поллинг для получения результата:
+
+```js
+import { WorkflowExecutionStatus } from '@exode-team/sdk/api'
+
 const result = await api.school.queryExport.getResult(execution.uuid)
 
 if (result.status === WorkflowExecutionStatus.Completed && result.result) {
@@ -113,7 +148,7 @@ if (result.status === WorkflowExecutionStatus.Completed && result.result) {
 
 ## Обработка ошибок
 
-```typescript
+```js
 import { ExodeAPIError } from '@exode-team/sdk/api'
 
 try {
@@ -130,32 +165,30 @@ try {
 
 ## Типы
 
+SDK экспортирует TypeScript-типы для всех сущностей, параметров и enums.
+
 ### Сущности
 
-```typescript
-import type {
-  UserEntity,
-  ProfileEntity,
-  ProfileAvatar,
-  ProfileContact,
-  ProfileSchool,
-  GroupEntity,
-  GroupMemberEntity,
-  SessionEntity,
-  WorkflowExecutionEntity,
-  WorkflowExecutionResult,
+```js
+import {
+  // Пользователь
+  UserEntity, ProfileEntity, ProfileAvatar, ProfileContact, ProfileSchool,
+  // Группы
+  GroupEntity, GroupMemberEntity,
+  // Сессии и экспорт
+  SessionEntity, WorkflowExecutionEntity, WorkflowExecutionResult,
 } from '@exode-team/sdk/api'
 ```
 
 ### Enums
 
-```typescript
+```js
 import {
-  Language,          // En, Ru, Uz, Qa
-  UserSex,           // Ufo, Women, Men
-  ProfileRole,       // Student, Tutor, Parent
-  UserStateKey,      // PersonalInfoFilled, UtmSignupParams, CustomField
-  WorkflowExecutionStatus,  // Waiting, Processing, Failed, Canceled, Completed
+  Language,          // 'En', 'Ru', 'Uz', 'Qa'
+  UserSex,           // 'Ufo', 'Women', 'Men'
+  ProfileRole,       // 'Student', 'Tutor', 'Parent'
+  UserStateKey,      // 'PersonalInfoFilled', 'UtmSignupParams', 'CustomField'
+  WorkflowExecutionStatus,  // 'Waiting', 'Processing', 'Failed', 'Canceled', 'Completed'
   QueryExportType,   // GroupMemberFindMany, CourseLessonPracticeAttemptFindMany
   QueryExportFormat, // Csv, Xlsx, Json
 } from '@exode-team/sdk/api'
@@ -163,15 +196,10 @@ import {
 
 ### Параметры запросов
 
-```typescript
-import type {
-  UserCreateParams,
-  UserUpdateParams,
-  UserUpsertParams,
-  UserFindParams,
-  AuthTokenParams,
-  QueryExportParams,
-  CreateProfileParams,
-  UpdateProfileParams,
+```js
+import {
+  UserCreateParams, UserUpdateParams, UserUpsertParams, UserFindParams,
+  AuthTokenParams, QueryExportParams,
+  CreateProfileParams, UpdateProfileParams,
 } from '@exode-team/sdk/api'
 ```

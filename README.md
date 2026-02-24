@@ -20,7 +20,7 @@ npm install @exode-team/sdk
 
 ### School API (Node.js)
 
-```typescript
+```js
 import { ExodeAPI } from '@exode-team/sdk/api'
 
 const api = new ExodeAPI({
@@ -37,7 +37,7 @@ const user = await api.school.user.create({
 
 ### MiniApp (iframe)
 
-```typescript
+```js
 import { ExodeMiniApp } from '@exode-team/sdk/miniapp'
 
 const app = new ExodeMiniApp({ appId: 'my-app' })
@@ -48,7 +48,7 @@ console.log(ctx.user.firstName)
 
 ### MiniApp React
 
-```tsx
+```jsx
 import { ExodeMiniAppProvider, useExodeUser, useExodeTheme } from '@exode-team/sdk/miniapp/react'
 
 function App() {

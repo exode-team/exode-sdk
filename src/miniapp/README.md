@@ -2,7 +2,7 @@
 
 Клиентский bridge для iframe-миниприложений, работающих внутри Exode.
 
-```
+```bash
 npm install @exode-team/sdk
 ```
 
@@ -21,9 +21,9 @@ Exode App (host)          <──  postMessage  ──>          MiniApp (iframe
 
 ## Использование
 
-### Vanilla JS / TypeScript
+### Vanilla JS
 
-```typescript
+```js
 import { ExodeMiniApp } from '@exode-team/sdk/miniapp'
 
 const app = new ExodeMiniApp({ appId: 'my-app' })
@@ -42,18 +42,15 @@ ctx.config     // { isDesktop, isMobile, language }
 
 Когда данные меняются в основном приложении, miniapp получает обновления:
 
-```typescript
-// Пользователь обновил профиль / сменил аккаунт
+```js
 app.on('theme:changed', (theme) => {
   document.body.className = theme.scheme
 })
 
-// Тема изменилась
 app.on('user:updated', (user) => {
   console.log('New user:', user.firstName)
 })
 
-// Маршрут изменился
 app.on('route:changed', ({ path, params }) => {
   console.log('Host navigated to:', path)
 })
@@ -63,7 +60,7 @@ app.on('route:changed', ({ path, params }) => {
 
 Отправка команд в основное приложение:
 
-```typescript
+```js
 // Навигация
 await app.navigate('/course/123')
 await app.navigateBack()
@@ -81,7 +78,7 @@ await app.close()
 
 ### Очистка
 
-```typescript
+```js
 // При размонтировании приложения
 app.destroy()
 ```
@@ -91,7 +88,7 @@ app.destroy()
 ```html
 <script src="https://cdn.exode.biz/sdk/miniapp.global.js"></script>
 <script>
-  const app = new ExodeMiniAppSDK.ExodeMiniApp({ appId: 'my-app' })
+  var app = new ExodeMiniAppSDK.ExodeMiniApp({ appId: 'my-app' })
 
   app.init().then(function(ctx) {
     document.getElementById('user').textContent = ctx.user.firstName
@@ -106,7 +103,7 @@ app.destroy()
 
 ## React-хуки
 
-```
+```js
 import { ... } from '@exode-team/sdk/miniapp/react'
 ```
 
@@ -114,7 +111,7 @@ import { ... } from '@exode-team/sdk/miniapp/react'
 
 Оборачивает приложение, автоматически выполняет `init()` и подписывается на все события:
 
-```tsx
+```jsx
 import { ExodeMiniAppProvider } from '@exode-team/sdk/miniapp/react'
 
 function App() {
@@ -130,80 +127,123 @@ function App() {
 
 Состояние подключения и низкоуровневый доступ к инстансу:
 
-```tsx
-const { app, isReady, error } = useExodeApp()
+```jsx
+function Status() {
+  const { app, isReady, error } = useExodeApp()
 
-if (error) return <div>Connection error: {error.message}</div>
-if (!isReady) return <div>Connecting to Exode...</div>
+  if (error) return <div>Connection error: {error.message}</div>
+  if (!isReady) return <div>Connecting to Exode...</div>
+
+  return <div>Connected</div>
+}
 ```
 
 ### useExodeUser
 
 Текущий пользователь. Автоматически обновляется при изменении в основном приложении:
 
-```tsx
-const { user, isLoggedIn } = useExodeUser()
+```jsx
+function Greeting() {
+  const { user, isLoggedIn } = useExodeUser()
 
-// user: { id, uuid, firstName, lastName, avatar, email, phone, role, language }
+  if (!isLoggedIn) return <div>Not logged in</div>
+
+  return <div>Hello, {user.firstName}</div>
+}
 ```
 
 ### useExodeTheme
 
 Текущая тема. Обновляется при переключении темы в основном приложении:
 
-```tsx
-const { scheme, isDark } = useExodeTheme()
+```jsx
+function ThemedBox() {
+  const { scheme, isDark } = useExodeTheme()
 
-// scheme: 'light' | 'dark'
+  return (
+    <div style={{ background: isDark ? '#1a1a1a' : '#ffffff' }}>
+      Current scheme: {scheme}
+    </div>
+  )
+}
 ```
 
 ### useExodeSchool
 
 Данные школы:
 
-```tsx
-const { school } = useExodeSchool()
+```jsx
+function SchoolInfo() {
+  const { school } = useExodeSchool()
 
-// school: { id, name, domain, config, ... }
+  return <div>{school?.name}</div>
+}
 ```
 
 ### useExodeConfig
 
 Конфигурация приложения:
 
-```tsx
-const { isDesktop, isMobile, language, platform } = useExodeConfig()
+```jsx
+function Layout() {
+  const { isDesktop, isMobile, language, platform } = useExodeConfig()
 
-// platform: 'web' | 'native'
-// language: 'Ru' | 'En' | 'Uz' | 'Qa'
+  return (
+    <div className={isMobile ? 'compact' : 'wide'}>
+      {language} / {platform}
+    </div>
+  )
+}
 ```
 
 ### useExodeNavigation
 
 Навигация в основном приложении:
 
-```tsx
-const { navigate, navigateBack } = useExodeNavigation()
+```jsx
+function NavButtons() {
+  const { navigate, navigateBack } = useExodeNavigation()
 
-await navigate('/course/123', { tab: 'lessons' })
-await navigateBack()
+  return (
+    <>
+      <button onClick={() => navigate('/course/123', { tab: 'lessons' })}>
+        Open course
+      </button>
+      <button onClick={() => navigateBack()}>
+        Back
+      </button>
+    </>
+  )
+}
 ```
 
 ### useExodeUI
 
 Управление UI основного приложения:
 
-```tsx
-const { showSnackbar, setTabbarVisible, setHeaderVisible, close } = useExodeUI()
+```jsx
+function Controls() {
+  const { showSnackbar, setTabbarVisible, setHeaderVisible, close } = useExodeUI()
 
-await showSnackbar({ message: 'Done!', type: 'success' })
-await setTabbarVisible(false)
-await close()
+  return (
+    <>
+      <button onClick={() => showSnackbar({ message: 'Done!', type: 'success' })}>
+        Notify
+      </button>
+      <button onClick={() => setTabbarVisible(false)}>
+        Hide tabbar
+      </button>
+      <button onClick={() => close()}>
+        Close app
+      </button>
+    </>
+  )
+}
 ```
 
 ## Конфигурация
 
-```typescript
+```js
 new ExodeMiniApp({
   appId: 'my-app',          // ID приложения (обязательно)
   targetOrigin: '*',         // Origin хоста (по умолчанию '*')
@@ -213,8 +253,10 @@ new ExodeMiniApp({
 
 ## Типы
 
-```typescript
-import type {
+SDK экспортирует TypeScript-типы для строгой типизации:
+
+```js
+import {
   MiniAppContext,     // Полный контекст (user + school + theme + config + platform)
   MiniAppUser,        // Данные пользователя
   MiniAppTheme,       // { scheme: 'light' | 'dark' }
