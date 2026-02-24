@@ -1,0 +1,46 @@
+{
+  "name": "@exode-team/sdk",
+  "version": "0.1.0",
+  "description": "Exode SDK — API client and MiniApp bridge",
+  "exports": {
+    "./api": {
+      "types": "./dist/api/index.d.ts",
+      "import": "./dist/api/index.mjs",
+      "require": "./dist/api/index.js"
+    },
+    "./miniapp": {
+      "types": "./dist/miniapp/index.d.ts",
+      "import": "./dist/miniapp/index.mjs",
+      "require": "./dist/miniapp/index.js"
+    },
+    "./miniapp/react": {
+      "types": "./dist/miniapp-react/index.d.ts",
+      "import": "./dist/miniapp-react/index.mjs",
+      "require": "./dist/miniapp-react/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "tsup": "^8.4.0",
+    "typescript": "^5.7.0"
+  }
+}
