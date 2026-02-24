@@ -2,6 +2,11 @@
   "name": "@exode-team/sdk",
   "version": "0.1.0",
   "description": "Exode SDK — API client and MiniApp bridge",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exode-team/exode-sdk"
+  },
+  "homepage": "https://github.com/exode-team/exode-sdk#readme",
   "exports": {
     "./api": {
       "types": "./dist/api/index.d.ts",
