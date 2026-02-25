@@ -14,6 +14,32 @@ const DEFAULT_TIMEOUT = 10_000
 
 export class ExodeMiniApp {
 
+  /** Navigation commands */
+  readonly route = {
+    navigate: (path: string, params?: Record<string, string>): Promise<void> => {
+      return this.sendCommand('navigate', { path, params })
+    },
+    back: (): Promise<void> => {
+      return this.sendCommand('navigate:back', undefined)
+    },
+  }
+
+  /** UI control commands */
+  readonly ui = {
+    showSnackbar: (params: MiniAppCommandMap['showSnackbar']): Promise<void> => {
+      return this.sendCommand('showSnackbar', params)
+    },
+    setTabbarVisible: (visible: boolean): Promise<void> => {
+      return this.sendCommand('setTabbarVisible', { visible })
+    },
+    setHeaderVisible: (visible: boolean): Promise<void> => {
+      return this.sendCommand('setHeaderVisible', { visible })
+    },
+    close: (): Promise<void> => {
+      return this.sendCommand('close', undefined)
+    },
+  }
+
   private bridge: Bridge | null = null
   private context: MiniAppContext | null = null
   private readonly config: Required<ExodeMiniAppConfig>
@@ -76,30 +102,6 @@ export class ExodeMiniApp {
     return () => {
       this.eventListeners.get(event)?.delete(wrappedHandler)
     }
-  }
-
-  async navigate(path: string, params?: Record<string, string>): Promise<void> {
-    await this.sendCommand('navigate', { path, params })
-  }
-
-  async navigateBack(): Promise<void> {
-    await this.sendCommand('navigate:back', undefined)
-  }
-
-  async showSnackbar(params: MiniAppCommandMap['showSnackbar']): Promise<void> {
-    await this.sendCommand('showSnackbar', params)
-  }
-
-  async setTabbarVisible(visible: boolean): Promise<void> {
-    await this.sendCommand('setTabbarVisible', { visible })
-  }
-
-  async setHeaderVisible(visible: boolean): Promise<void> {
-    await this.sendCommand('setHeaderVisible', { visible })
-  }
-
-  async close(): Promise<void> {
-    await this.sendCommand('close', undefined)
   }
 
   destroy(): void {

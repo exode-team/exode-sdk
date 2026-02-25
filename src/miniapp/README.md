@@ -58,22 +58,22 @@ app.on('route:changed', ({ path, params }) => {
 
 ### Команды
 
-Отправка команд в основное приложение:
+Отправка команд в основное приложение через namespaces `route` и `ui`:
 
 ```js
 // Навигация
-await app.navigate('/course/123')
-await app.navigateBack()
+await app.route.navigate('/course/123')
+await app.route.back()
 
 // Уведомления
-await app.showSnackbar({ message: 'Сохранено!', type: 'success' })
+await app.ui.showSnackbar({ message: 'Сохранено!', type: 'success' })
 
 // Управление UI
-await app.setTabbarVisible(false)
-await app.setHeaderVisible(false)
+await app.ui.setTabbarVisible(false)
+await app.ui.setHeaderVisible(false)
 
 // Закрыть миниприложение
-await app.close()
+await app.ui.close()
 ```
 
 ### Очистка
@@ -86,7 +86,12 @@ app.destroy()
 ## CDN (без сборки)
 
 ```html
-<script src="https://cdn.exode.biz/sdk/miniapp.global.js"></script>
+<!-- Конкретная версия (рекомендуется) -->
+<script src="https://cdn.exode.biz/sdk/v0.1.0/miniapp.global.js"></script>
+
+<!-- Последняя версия -->
+<script src="https://cdn.exode.biz/sdk/latest/miniapp.global.js"></script>
+
 <script>
   var app = new ExodeMiniAppSDK.ExodeMiniApp({ appId: 'my-app' })
 
@@ -204,14 +209,14 @@ function Layout() {
 
 ```jsx
 function NavButtons() {
-  const { navigate, navigateBack } = useExodeNavigation()
+  const { navigate, back } = useExodeNavigation()
 
   return (
     <>
       <button onClick={() => navigate('/course/123', { tab: 'lessons' })}>
         Open course
       </button>
-      <button onClick={() => navigateBack()}>
+      <button onClick={() => back()}>
         Back
       </button>
     </>

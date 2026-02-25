@@ -70,7 +70,7 @@ function MyComponent() {
 ### MiniApp CDN (без сборки)
 
 ```html
-<script src="https://cdn.exode.biz/sdk/miniapp.global.js"></script>
+<script src="https://cdn.exode.biz/sdk/v0.1.0/miniapp.global.js"></script>
 <script>
   const app = new ExodeMiniAppSDK.ExodeMiniApp({ appId: 'my-app' })
   app.init().then(ctx => {

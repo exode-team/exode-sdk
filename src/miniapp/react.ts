@@ -160,13 +160,13 @@ export function useExodeNavigation() {
   const { app } = useExodeContext()
 
   const navigate = useCallback(
-    (path: string, params?: Record<string, string>) => app.navigate(path, params),
+    (path: string, params?: Record<string, string>) => app.route.navigate(path, params),
     [app],
   )
 
-  const navigateBack = useCallback(() => app.navigateBack(), [app])
+  const back = useCallback(() => app.route.back(), [app])
 
-  return { navigate, navigateBack }
+  return { navigate, back }
 }
 
 /** UI control commands to host app */
@@ -174,21 +174,21 @@ export function useExodeUI() {
   const { app } = useExodeContext()
 
   const showSnackbar = useCallback(
-    (params: MiniAppCommandMap['showSnackbar']) => app.showSnackbar(params),
+    (params: MiniAppCommandMap['showSnackbar']) => app.ui.showSnackbar(params),
     [app],
   )
 
   const setTabbarVisible = useCallback(
-    (visible: boolean) => app.setTabbarVisible(visible),
+    (visible: boolean) => app.ui.setTabbarVisible(visible),
     [app],
   )
 
   const setHeaderVisible = useCallback(
-    (visible: boolean) => app.setHeaderVisible(visible),
+    (visible: boolean) => app.ui.setHeaderVisible(visible),
     [app],
   )
 
-  const close = useCallback(() => app.close(), [app])
+  const close = useCallback(() => app.ui.close(), [app])
 
   return { showSnackbar, setTabbarVisible, setHeaderVisible, close }
 }
