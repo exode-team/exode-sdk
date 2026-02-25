@@ -1,4 +1,27 @@
-import type { Language, UserSex, ProfileRole } from './common'
+export enum Language {
+  En = 'En',
+  Ru = 'Ru',
+  Uz = 'Uz',
+  Qa = 'Qa',
+}
+
+export enum UserSex {
+  Ufo = 'Ufo',
+  Women = 'Women',
+  Men = 'Men',
+}
+
+export enum ProfileRole {
+  Student = 'Student',
+  Tutor = 'Tutor',
+  Parent = 'Parent',
+}
+
+export enum UserStateKey {
+  CustomField = 'CustomField',
+  UtmSignupParams = 'UtmSignupParams',
+  PersonalInfoFilled = 'PersonalInfoFilled',
+}
 
 export interface ProfileAvatar {
   id: number
@@ -71,4 +94,15 @@ export interface UserEntity {
   createdAt: string
   updatedAt: string | null
   profile: ProfileEntity
+}
+
+export interface SessionEntity {
+  id: number
+  uuid: string
+  token: string
+  alive: boolean
+  isOnline: boolean
+  expireAt: string
+  createdAt: string
+  updatedAt: string | null
 }

@@ -1,7 +1,7 @@
 import type { ExodeAPI } from '../client'
-import { UserMethods } from './user'
-import { GroupMethods } from './group'
-import { QueryExportMethods } from './query-export'
+import { UserMethods } from './user/methods'
+import { GroupMethods } from './group/methods'
+import { QueryExportMethods } from './query-export/methods'
 
 export class SchoolAPI {
 

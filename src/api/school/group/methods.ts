@@ -1,10 +1,5 @@
-import type { ExodeAPI } from '../client'
-import type { GroupMemberEntity } from '../entities/group'
-
-export interface GroupMemberCreateResult {
-  exist: GroupMemberEntity[]
-  created: GroupMemberEntity[]
-}
+import type { ExodeAPI } from '../../client'
+import type { GroupMemberCreateResult } from './types'
 
 export class GroupMethods {
 

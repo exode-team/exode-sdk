@@ -1,14 +1,12 @@
-import type { ExodeAPI } from '../client'
-import type { UserEntity } from '../entities/user'
-import type { SessionEntity } from '../entities/session'
+import type { ExodeAPI } from '../../client'
+import type { UserEntity, SessionEntity, UserStateKey } from './entities'
 import type {
   UserCreateParams,
   UserUpdateParams,
   UserUpsertParams,
   UserFindParams,
   AuthTokenParams,
-  UserStateKey,
-} from '../types'
+} from './types'
 
 export class UserMethods {
 

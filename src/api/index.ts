@@ -1,30 +1,29 @@
-export { ExodeAPI } from './client'
-export { ExodeAPIError } from './types'
+// Client
+export { ExodeAPI, ExodeAPIError } from './client'
+export type { ExodeAPIConfig } from './client'
 
-export type { ExodeAPIConfig } from './types'
+// User
 export type {
-  UserCreateParams,
-  UserUpdateParams,
-  UserUpsertParams,
-  UserFindParams,
-  AuthTokenParams,
-  QueryExportParams,
-  CreateProfileParams,
-  UpdateProfileParams,
-} from './types'
+  UserCreateParams, UserUpdateParams, UserUpsertParams, UserFindParams,
+  AuthTokenParams, CreateProfileParams, UpdateProfileParams,
+} from './school/user/types'
 
-export type { UserEntity, ProfileEntity, ProfileAvatar, ProfileContact, ProfileSchool, ProfileTitleState } from './entities/user'
-export type { GroupEntity, GroupMemberEntity, GroupMemberTgChatMeta } from './entities/group'
-export type { SessionEntity } from './entities/session'
-export type { WorkflowExecutionEntity, WorkflowExecutionResult, WorkflowExecutionFileResult } from './entities/workflow'
-export type { GroupMemberCreateResult } from './school/group'
+export type {
+  UserEntity, ProfileEntity, ProfileAvatar, ProfileContact, ProfileSchool, ProfileTitleState,
+  SessionEntity,
+} from './school/user/entities'
 
-export {
-  Language,
-  UserSex,
-  ProfileRole,
-  UserStateKey,
-  WorkflowExecutionStatus,
-  QueryExportType,
-  QueryExportFormat,
-} from './entities/common'
+export { Language, UserSex, ProfileRole, UserStateKey } from './school/user/entities'
+
+// Group
+export type { GroupMemberCreateResult } from './school/group/types'
+export type { GroupEntity, GroupMemberEntity, GroupMemberTgChatMeta } from './school/group/entities'
+
+// Query Export
+export type { QueryExportParams, SortDirection } from './school/query-export/types'
+
+export type {
+  WorkflowExecutionEntity, WorkflowExecutionResult, WorkflowExecutionFileResult,
+} from './school/query-export/entities'
+
+export { WorkflowExecutionStatus, QueryExportType, QueryExportFormat } from './school/query-export/entities'

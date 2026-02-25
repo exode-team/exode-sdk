@@ -1,9 +1,39 @@
-import type { ExodeAPIConfig, APIErrorResponse } from './types'
-import { ExodeAPIError } from './types'
 import { SchoolAPI } from './school'
 
 const DEFAULT_BASE_URL = 'https://api.exode.biz/saas/v2'
 const DEFAULT_TIMEOUT = 30_000
+
+export interface ExodeAPIConfig {
+  sellerId: number
+  schoolId: number
+  token: string
+  baseUrl?: string
+  timeout?: number
+}
+
+export class ExodeAPIError extends Error {
+
+  readonly code: number
+  readonly errorCause: string
+  readonly details?: string
+
+  constructor(params: { code: number; cause: string; message: string; details?: string }) {
+    super(params.message)
+    this.name = 'ExodeAPIError'
+    this.code = params.code
+    this.errorCause = params.cause
+    this.details = params.details
+  }
+
+}
+
+interface APIErrorResponse {
+  success: false
+  code: number
+  cause: string
+  message: string
+  error?: string
+}
 
 export class ExodeAPI {
 

@@ -1,4 +1,4 @@
-import type { UserEntity } from './user'
+import type { UserEntity } from '../user/entities'
 
 export interface GroupMemberTgChatMeta {
   tgChatId: string | null

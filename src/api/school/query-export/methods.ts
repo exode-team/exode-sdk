@@ -1,6 +1,6 @@
-import type { ExodeAPI } from '../client'
-import type { WorkflowExecutionEntity, WorkflowExecutionResult } from '../entities/workflow'
-import type { QueryExportParams } from '../types'
+import type { ExodeAPI } from '../../client'
+import type { WorkflowExecutionEntity, WorkflowExecutionResult } from './entities'
+import type { QueryExportParams } from './types'
 
 export class QueryExportMethods {
 

@@ -1,28 +1,3 @@
-export enum Language {
-  En = 'En',
-  Ru = 'Ru',
-  Uz = 'Uz',
-  Qa = 'Qa',
-}
-
-export enum UserSex {
-  Ufo = 'Ufo',
-  Women = 'Women',
-  Men = 'Men',
-}
-
-export enum ProfileRole {
-  Student = 'Student',
-  Tutor = 'Tutor',
-  Parent = 'Parent',
-}
-
-export enum UserStateKey {
-  CustomField = 'CustomField',
-  UtmSignupParams = 'UtmSignupParams',
-  PersonalInfoFilled = 'PersonalInfoFilled',
-}
-
 export enum WorkflowExecutionStatus {
   Waiting = 'Waiting',
   Processing = 'Processing',
@@ -42,4 +17,24 @@ export enum QueryExportFormat {
   Json = 'EXPORT_FORMAT_JSON',
 }
 
-export type SortDirection = 'ASC' | 'DESC'
+export interface WorkflowExecutionEntity {
+  id: number
+  uuid: string
+  status: WorkflowExecutionStatus
+  isCompleted: boolean
+  createdAt: string
+  updatedAt: string | null
+}
+
+export interface WorkflowExecutionResult {
+  total: number
+  completed: number
+  status: WorkflowExecutionStatus
+  result: WorkflowExecutionFileResult | null
+}
+
+export interface WorkflowExecutionFileResult {
+  fileUrl: string
+  fileName: string
+  fileSize: number
+}
